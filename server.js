@@ -38,8 +38,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // Start server
-const PORT = 5000;
-app.listen(PORT, () => {
-    console.log(`✅ Server running at http://localhost:${PORT}`);
-    console.log(`📍 Service request endpoint: http://localhost:${PORT}/api/submit-request`);
+const PORT = process.env.PORT|| 8080;
+app.listen(PORT, '0.0.0.0', () =>{
+    console.log('server running on port ${port}');
 });
