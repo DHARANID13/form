@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Center Request</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="w-full max-w-md bg-white rounded-lg shadow-xl overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-8">
+            <h1 class="text-3xl font-bold text-white">Service Request</h1>
+            <p class="text-blue-100 mt-2">We're here to help. Submit your request below.</p>
+        </div>
+
+        <!-- Form -->
+        <form id="serviceForm" class="p-8 space-y-6">
+            <!-- Full Name -->
+            <div>
+                <label for="fullName" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Full Name
+                </label>
+                <input
+                    type="text"
+                    id="fullName"
+                    name="fullName"
+                    required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                    placeholder="John Doe"
+                />
+            </div>
+
+            <!-- Email -->
+            <div>
+                <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Email
+                </label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                    placeholder="john@example.com"
+                />
+            </div>
+
+            <!-- Device Type -->
+            <div>
+                <label for="deviceType" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Device Type
+                </label>
+                <select
+                    id="deviceType"
+                    name="deviceType"
+                    required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition appearance-none bg-white cursor-pointer"
+                >
+                    <option value="">-- Select Device Type --</option>
+                    <option value="Phone">Phone</option>
+                    <option value="Laptop">Laptop</option>
+                    <option value="Tablet">Tablet</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <!-- Message -->
+            <div>
+                <label for="message" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Message
+                </label>
+                <textarea
+                    id="message"
+                    name="message"
+                    required
+                    rows="5"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition resize-none"
+                    placeholder="Describe your issue or request..."
+                ></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button
+                type="submit"
+                id="submitBtn"
+                class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-3 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition duration-200 ease-in-out transform hover:scale-105 active:scale-95"
+            >
+                Submit Request
+            </button>
+        </form>
+    </div>
+
+    <script>
+        const serviceForm = document.getElementById('serviceForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        serviceForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Disable button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            // Collect form data
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                deviceType: document.getElementById('deviceType').value,
+                message: document.getElementById('message').value,
+            };
+
+            try {
+                // Send data to server
+                const response = await fetch('http://localhost:5000/api/submit-request', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+
+                if (response.ok) {
+                    // Success
+                    alert('✓ Request submitted successfully! We will get back to you soon.');
+                    serviceForm.reset();
+                    submitBtn.textContent = 'Submit Request';
+                } else {
+                    // Server error response
+                    alert('✗ Error submitting request. Please try again.');
+                    submitBtn.textContent = 'Submit Request';
+                }
+            } catch (error) {
+                // Network or fetch error
+                alert('✗ Failed to connect to server. Please check your connection and try again.');
+                console.error('Error:', error);
+                submitBtn.textContent = 'Submit Request';
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
