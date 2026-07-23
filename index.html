@@ -3,142 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Center Request</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Service Center Request Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+            font-weight: 500;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #667eea;
+            font-weight: 600;
+        }
+    </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div class="w-full max-w-md bg-white rounded-lg shadow-xl overflow-hidden">
-        <!-- Header -->
-        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-8">
-            <h1 class="text-3xl font-bold text-white">Service Request</h1>
-            <p class="text-blue-100 mt-2">We're here to help. Submit your request below.</p>
-        </div>
+<body>
+    <div class="container">
+        <h1>📞 Service Center</h1>
+        <p class="subtitle">Submit your service request below</p>
 
-        <!-- Form -->
-        <form id="serviceForm" class="p-8 space-y-6">
-            <!-- Full Name -->
-            <div>
-                <label for="fullName" class="block text-sm font-semibold text-gray-700 mb-2">
-                    Full Name
-                </label>
-                <input
-                    type="text"
-                    id="fullName"
-                    name="fullName"
-                    required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
-                    placeholder="John Doe"
-                />
+        <form id="serviceForm">
+            <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" required placeholder="Enter your full name">
             </div>
 
-            <!-- Email -->
-            <div>
-                <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
-                    Email
-                </label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
-                    placeholder="john@example.com"
-                />
+            <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
             </div>
 
-            <!-- Device Type -->
-            <div>
-                <label for="deviceType" class="block text-sm font-semibold text-gray-700 mb-2">
-                    Device Type
-                </label>
-                <select
-                    id="deviceType"
-                    name="deviceType"
-                    required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition appearance-none bg-white cursor-pointer"
-                >
-                    <option value="">-- Select Device Type --</option>
-                    <option value="Phone">Phone</option>
-                    <option value="Laptop">Laptop</option>
-                    <option value="Tablet">Tablet</option>
-                    <option value="Other">Other</option>
-                </select>
+            <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
             </div>
 
-            <!-- Message -->
-            <div>
-                <label for="message" class="block text-sm font-semibold text-gray-700 mb-2">
-                    Message
-                </label>
-                <textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows="5"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition resize-none"
-                    placeholder="Describe your issue or request..."
-                ></textarea>
+            <div class="form-group">
+                <label for="message">Message *</label>
+                <textarea id="message" name="message" required placeholder="Describe your service request..."></textarea>
             </div>
 
-            <!-- Submit Button -->
-            <button
-                type="submit"
-                id="submitBtn"
-                class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-3 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition duration-200 ease-in-out transform hover:scale-105 active:scale-95"
-            >
-                Submit Request
-            </button>
+            <div class="loading" id="loading">Submitting... Please wait</div>
+            <button type="submit" id="submitBtn">Submit Request</button>
+
+            <div class="message" id="message"></div>
         </form>
     </div>
 
     <script>
-        const serviceForm = document.getElementById('serviceForm');
+        const form = document.getElementById('serviceForm');
+        const messageDiv = document.getElementById('message');
+        const loadingDiv = document.getElementById('loading');
         const submitBtn = document.getElementById('submitBtn');
 
-        serviceForm.addEventListener('submit', async (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // Disable button and show loading state
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Submitting...';
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const message = document.getElementById('message').value;
 
-            // Collect form data
-            const formData = {
-                fullName: document.getElementById('fullName').value,
-                email: document.getElementById('email').value,
-                deviceType: document.getElementById('deviceType').value,
-                message: document.getElementById('message').value,
-            };
+            if (!name || !email || !phone || !message) {
+                showMessage('All fields are required!', 'error');
+                return;
+            }
+
+            // Show loading state
+            loadingDiv.style.display = 'block';
+            submitBtn.disabled = true;
+            messageDiv.style.display = 'none';
 
             try {
-                // Send data to server
-                const response = await fetch('http://localhost:5000/api/submit-request', {
+                const response = await fetch('/api/submit-request', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(formData),
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        phone,
+                        message
+                    })
                 });
 
+                const data = await response.json();
+
                 if (response.ok) {
-                    // Success
-                    alert('✓ Request submitted successfully! We will get back to you soon.');
-                    serviceForm.reset();
-                    submitBtn.textContent = 'Submit Request';
+                    showMessage('✓ Request submitted successfully!', 'success');
+                    form.reset();
                 } else {
-                    // Server error response
-                    alert('✗ Error submitting request. Please try again.');
-                    submitBtn.textContent = 'Submit Request';
+                    showMessage(data.message || 'Error submitting form', 'error');
                 }
             } catch (error) {
-                // Network or fetch error
-                alert('✗ Failed to connect to server. Please check your connection and try again.');
+                showMessage('Network error: ' + error.message, 'error');
                 console.error('Error:', error);
-                submitBtn.textContent = 'Submit Request';
             } finally {
+                loadingDiv.style.display = 'none';
                 submitBtn.disabled = false;
             }
         });
+
+        function showMessage(text, type) {
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+        }
     </script>
 </body>
 </html>
